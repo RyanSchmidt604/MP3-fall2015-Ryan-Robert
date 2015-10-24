@@ -30,14 +30,20 @@ public class Algorithms {
 		return 0;
 	}
 
-	public static List<Vertex> BFS(Graph g, Vertex v) {
-		ArrayList<Vertex> BFSresutls = new ArrayList<>();
-		return null;
+	public static Set<List<Vertex>> BFS(Graph g) {
+		Set<List<Vertex>> bfsResults = new HashSet<>();
+		for (Vertex v : g.getVertices()) {
+
+		}
+		return bfsResults;
 	}
 
-	public static List<Vertex> DFS(Graph g, Vertex v) {
-
-		return null;
+	public static Set<List<Vertex>> DFS(Graph g) {
+		Set<List<Vertex>> dfsResults = new HashSet<>();
+		for (Vertex v : g.getVertices()) {
+			// TODO Figure out how to do this.
+		}
+		return dfsResults;
 	}
 
 	public static List<Vertex> commonUpstreamVertices(Graph g, Vertex a, Vertex b) {
