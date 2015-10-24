@@ -40,4 +40,11 @@ public class Algorithms {
 		return null;
 	}
 
+	public static List<Vertex> commonUpstreamVertices(Graph g, Vertex a, Vertex b) {
+		return null;
+	}
+
+	public static List<Vertex> commonDownstreamVertices(Graph g, Vertex a, Vertex b) {
+		return null;
+	}
 }
