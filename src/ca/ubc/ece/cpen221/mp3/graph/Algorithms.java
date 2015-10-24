@@ -2,6 +2,7 @@ package ca.ubc.ece.cpen221.mp3.graph;
 
 import ca.ubc.ece.cpen221.mp3.staff.Graph;
 import ca.ubc.ece.cpen221.mp3.staff.Vertex;
+import java.util.*;
 
 public class Algorithms {
 
@@ -25,7 +26,18 @@ public class Algorithms {
 	 */
 	public static int shortestDistance(Graph graph, Vertex a, Vertex b) {
 		// TODO: Implement this method and others
+
 		return 0;
+	}
+
+	public static List<Vertex> BFS(Graph g, Vertex v) {
+
+		return null;
+	}
+
+	public static List<Vertex> DFS(Graph g, Vertex v) {
+
+		return null;
 	}
 
 }

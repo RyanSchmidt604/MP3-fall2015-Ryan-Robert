@@ -43,9 +43,9 @@ public class AdjacencyListGraph implements Graph {
 	public List<Vertex> getUpstreamNeighbors(Vertex v) {
 		int index = vertexList.indexOf(v);
 		List<Vertex> upStream = new ArrayList<>();
-		for(List<Integer> i: adjList){
-			for(Integer j: i){
-				if(j.equals(index)){
+		for (List<Integer> i : adjList) {
+			for (Integer j : i) {
+				if (j.equals(index)) {
 					upStream.add(vertexList.get(adjList.indexOf(i)));
 				}
 			}
