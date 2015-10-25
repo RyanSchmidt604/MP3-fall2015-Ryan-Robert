@@ -5,8 +5,8 @@ import ca.ubc.ece.cpen221.mp3.staff.Graph;
 import ca.ubc.ece.cpen221.mp3.staff.Vertex;
 
 public class AdjacencyMatrixGraph implements Graph {
-    private ArrayList<ArrayList<Integer>> adjacencyMatrix = new ArrayList<>();
-    private ArrayList<Vertex> vertexList = new ArrayList<>();
+    private List<ArrayList<Integer>> adjacencyMatrix = new ArrayList<>();
+    private List<Vertex> vertexList = new ArrayList<>();
     
 
     @Override
@@ -75,8 +75,8 @@ public class AdjacencyMatrixGraph implements Graph {
         return new ArrayList<Vertex>(vertexList);
     }
     
-    private ArrayList<ArrayList<Integer>> getSquaredMatrix(){
-        ArrayList<ArrayList<Integer>> productMatrix = new ArrayList<>(adjacencyMatrix);
+    private List<ArrayList<Integer>> getSquaredMatrix(){
+        List<ArrayList<Integer>> productMatrix = new ArrayList<>(adjacencyMatrix);
         
         for(int i = 0; i < adjacencyMatrix.size(); i++){
             for(int j = 0; j < adjacencyMatrix.get(i).size(); j++){
