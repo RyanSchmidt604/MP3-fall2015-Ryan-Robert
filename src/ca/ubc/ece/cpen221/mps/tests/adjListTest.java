@@ -50,6 +50,7 @@ public class adjListTest {
 		g.addEdge(test1, test3);
 
 		assertEquals(true, g.edgeExists(test1, test2));
+		assertEquals(false, g.edgeExists(test2, test1));
 		assertEquals(true, g.edgeExists(test1, test3));
 		assertEquals(false, g.edgeExists(test1, test4));
 
@@ -77,7 +78,6 @@ public class adjListTest {
 		g.addEdge(test1, test2);
 		g.addEdge(test1, test3);
 		g.addEdge(test1, test4);
-		g.addEdge(test2, test4);
 		g.addEdge(test3, test5);
 		g.addEdge(test5, test2);
 
@@ -87,14 +87,41 @@ public class adjListTest {
 
 		List<Vertex> testList4 = new LinkedList<>();
 		testList4.add(test1);
-		testList4.add(test2);
 
 		assertEquals(true, g.getUpstreamNeighbors(test2).containsAll(testList2));
 		assertEquals(true, g.getUpstreamNeighbors(test4).containsAll(testList4));
+		assertEquals(0, g.getUpstreamNeighbors(test1).size());
 	}
 
 	@Test
 	public void getDownstreamNeighborsTest() {
+		Vertex test1 = new Vertex("test1");
+		Vertex test2 = new Vertex("test2");
+		Vertex test3 = new Vertex("test3");
+		Vertex test4 = new Vertex("test4");
+		Vertex test5 = new Vertex("test5");
 
+		g.addVertex(test1);
+		g.addVertex(test2);
+		g.addVertex(test3);
+		g.addVertex(test4);
+		g.addVertex(test5);
+
+		g.addEdge(test1, test2);
+		g.addEdge(test1, test3);
+		g.addEdge(test1, test4);
+		g.addEdge(test3, test5);
+		g.addEdge(test5, test2);
+		
+		List<Vertex> testList1 = new LinkedList<>();
+		testList1.add(test2);
+		testList1.add(test3);
+		testList1.add(test4);
+		List<Vertex> testList3 = new LinkedList<>();
+		testList3.add(test5);
+		
+		assertEquals(true, g.getDownstreamNeighbors(test1).containsAll(testList1));
+		assertEquals(true, g.getDownstreamNeighbors(test3).containsAll(testList3));
+		assertEquals(0, g.getDownstreamNeighbors(test4).size());
 	}
 }

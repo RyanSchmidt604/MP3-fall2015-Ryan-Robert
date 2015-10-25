@@ -11,8 +11,13 @@ public class AdjacencyListGraph implements Graph {
 
 	@Override
 	public void addVertex(Vertex v) {
-		vertexList.add(v);
+		if(vertexList.contains(v)){
+			throw new IllegalArgumentException();
+		}else{
+			vertexList.add(v);
 		adjList.add(new ArrayList<>());
+		}
+		
 	}
 
 	@Override
@@ -26,7 +31,7 @@ public class AdjacencyListGraph implements Graph {
 	public boolean edgeExists(Vertex v1, Vertex v2) {
 		int index1 = vertexList.indexOf(v1);
 		int index2 = vertexList.indexOf(v2);
-		return adjList.get(index1).contains(index2) || adjList.get(index2).contains(index1);
+		return adjList.get(index1).contains(index2);
 	}
 
 	@Override
