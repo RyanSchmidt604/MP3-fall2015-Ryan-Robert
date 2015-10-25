@@ -25,9 +25,31 @@ public class Algorithms {
 	 * @return
 	 */
 	public static int shortestDistance(Graph graph, Vertex a, Vertex b) {
-		// TODO: Implement this method and others
-
-		return 0;
+		Map<Vertex, Boolean> visited = new HashMap<>();
+		Map<Vertex, Vertex> parent = new HashMap<>();
+		Queue<Vertex> vertexQueue = new LinkedList<>();
+		Vertex currentVertex = a;
+		vertexQueue.add(currentVertex);
+		visited.put(currentVertex, true);
+		while (!vertexQueue.isEmpty()) {
+			currentVertex = vertexQueue.remove();
+			if (currentVertex.equals(b)) {
+				break;
+			} else {
+				for (Vertex v : graph.getDownstreamNeighbors(currentVertex)) {
+					if (!visited.containsKey(v)) {
+						vertexQueue.add(v);
+						visited.put(v, true);
+						parent.put(v, currentVertex);
+					}
+				}
+			}
+		}
+		int shortestPathLenght = 0;
+		for (Vertex v = b; v != null; v = parent.get(v)) {
+				shortestPathLenght++;
+		}
+		return shortestPathLenght;
 	}
 
 	public static Set<List<Vertex>> BFS(Graph g) {
