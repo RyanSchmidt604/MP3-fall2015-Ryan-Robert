@@ -47,9 +47,9 @@ public class Algorithms {
 		}
 		int shortestPathLenght = 0;
 		for (Vertex v = b; v != null; v = parent.get(v)) {
-				shortestPathLenght++;
+			shortestPathLenght++;
 		}
-		return shortestPathLenght;
+		return shortestPathLenght - 1;
 	}
 
 	public static Set<List<Vertex>> BFS(Graph g) {
@@ -72,14 +72,19 @@ public class Algorithms {
 		List<Vertex> upstreamResults = new ArrayList<>();
 		List<Vertex> aVertices = g.getUpstreamNeighbors(a);
 		List<Vertex> bVertices = g.getUpstreamNeighbors(b);
-		while (!(aVertices.isEmpty() || bVertices.isEmpty())) {
-			Vertex aCheck = aVertices.remove(0);
-			Vertex bCheck = bVertices.remove(0);
-			if (aCheck.equals(bCheck)) {
-				upstreamResults.add(aCheck);
+		if (aVertices.size() > bVertices.size()) {
+			for (Vertex v : aVertices) {
+				if (bVertices.contains(v)) {
+					upstreamResults.add(v);
+				}
+			}
+		} else {
+			for (Vertex w : bVertices) {
+				if (aVertices.contains(w)) {
+					upstreamResults.add(w);
+				}
 			}
 		}
-
 		return upstreamResults;
 	}
 
@@ -87,11 +92,17 @@ public class Algorithms {
 		List<Vertex> downstreamResults = new ArrayList<>();
 		List<Vertex> aVertices = g.getDownstreamNeighbors(a);
 		List<Vertex> bVertices = g.getDownstreamNeighbors(b);
-		while (!(aVertices.isEmpty() || bVertices.isEmpty())) {
-			Vertex aCheck = aVertices.remove(0);
-			Vertex bCheck = bVertices.remove(0);
-			if (aCheck.equals(bCheck)) {
-				downstreamResults.add(aCheck);
+		if (aVertices.size() > bVertices.size()) {
+			for (Vertex v : aVertices) {
+				if (bVertices.contains(v)) {
+					downstreamResults.add(v);
+				}
+			}
+		} else {
+			for (Vertex w : bVertices) {
+				if (aVertices.contains(w)) {
+					downstreamResults.add(w);
+				}
 			}
 		}
 
