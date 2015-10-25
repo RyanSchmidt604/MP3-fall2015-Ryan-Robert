@@ -81,10 +81,10 @@ public class algorithmTest {
 		List<Vertex> expectedResults1 = new LinkedList<Vertex>();
 		List<Vertex> expectedResults2 = new LinkedList<Vertex>();
 		List<Vertex> expectedResults3 = new LinkedList<Vertex>();
- 		expectedResults1.add(test3);
- 		expectedResults3.add(test2);
- 		expectedResults3.add(test3);
- 		
+		expectedResults1.add(test3);
+		expectedResults3.add(test2);
+		expectedResults3.add(test3);
+
 		assertEquals(true, Algorithms.commonDownstreamVertices(testGraph, test1, test2).containsAll(expectedResults1));
 		assertEquals(true, Algorithms.commonDownstreamVertices(testGraph, test1, test4).containsAll(expectedResults2));
 		assertEquals(true, Algorithms.commonDownstreamVertices(testGraph, test1, test5).containsAll(expectedResults3));
@@ -92,7 +92,7 @@ public class algorithmTest {
 	}
 
 	@Test
-	public void commonUpstreamVerticesTest(){
+	public void commonUpstreamVerticesTest() {
 		Vertex test1 = new Vertex("test1");
 		Vertex test2 = new Vertex("test2");
 		Vertex test3 = new Vertex("test3");
@@ -121,14 +121,14 @@ public class algorithmTest {
 		List<Vertex> expectedResults1 = new LinkedList<Vertex>();
 		List<Vertex> expectedResults2 = new LinkedList<Vertex>();
 		List<Vertex> expectedResults3 = new LinkedList<Vertex>();
-		
+
 		expectedResults1.add(test1);
 		expectedResults3.add(test1);
 		expectedResults3.add(test5);
-		
-		assertEquals(true,Algorithms.commonUpstreamVertices(testGraph, test4, test3).containsAll(expectedResults1));
-		assertEquals(true,Algorithms.commonUpstreamVertices(testGraph, test7, test4).containsAll(expectedResults2));
-		assertEquals(true,Algorithms.commonUpstreamVertices(testGraph, test2, test3).containsAll(expectedResults3));
- 		
+
+		assertEquals(true, Algorithms.commonUpstreamVertices(testGraph, test4, test3).containsAll(expectedResults1));
+		assertEquals(true, Algorithms.commonUpstreamVertices(testGraph, test7, test4).containsAll(expectedResults2));
+		assertEquals(true, Algorithms.commonUpstreamVertices(testGraph, test2, test3).containsAll(expectedResults3));
+
 	}
 }
