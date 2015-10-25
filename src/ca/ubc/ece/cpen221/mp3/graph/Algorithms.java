@@ -47,10 +47,32 @@ public class Algorithms {
 	}
 
 	public static List<Vertex> commonUpstreamVertices(Graph g, Vertex a, Vertex b) {
-		return null;
+		List<Vertex> upstreamResults = new ArrayList<>();
+		List<Vertex> aVertices = g.getUpstreamNeighbors(a);
+		List<Vertex> bVertices = g.getUpstreamNeighbors(b);
+		while (!(aVertices.isEmpty() || bVertices.isEmpty())) {
+			Vertex aCheck = aVertices.remove(0);
+			Vertex bCheck = bVertices.remove(0);
+			if (aCheck.equals(bCheck)) {
+				upstreamResults.add(aCheck);
+			}
+		}
+
+		return upstreamResults;
 	}
 
 	public static List<Vertex> commonDownstreamVertices(Graph g, Vertex a, Vertex b) {
-		return null;
+		List<Vertex> downstreamResults = new ArrayList<>();
+		List<Vertex> aVertices = g.getDownstreamNeighbors(a);
+		List<Vertex> bVertices = g.getDownstreamNeighbors(b);
+		while (!(aVertices.isEmpty() || bVertices.isEmpty())) {
+			Vertex aCheck = aVertices.remove(0);
+			Vertex bCheck = bVertices.remove(0);
+			if (aCheck.equals(bCheck)) {
+				downstreamResults.add(aCheck);
+			}
+		}
+
+		return downstreamResults;
 	}
 }

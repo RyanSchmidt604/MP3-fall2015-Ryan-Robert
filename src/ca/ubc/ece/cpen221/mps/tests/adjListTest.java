@@ -112,14 +112,14 @@ public class adjListTest {
 		g.addEdge(test1, test4);
 		g.addEdge(test3, test5);
 		g.addEdge(test5, test2);
-		
+
 		List<Vertex> testList1 = new LinkedList<>();
 		testList1.add(test2);
 		testList1.add(test3);
 		testList1.add(test4);
 		List<Vertex> testList3 = new LinkedList<>();
 		testList3.add(test5);
-		
+
 		assertEquals(true, g.getDownstreamNeighbors(test1).containsAll(testList1));
 		assertEquals(true, g.getDownstreamNeighbors(test3).containsAll(testList3));
 		assertEquals(0, g.getDownstreamNeighbors(test4).size());
