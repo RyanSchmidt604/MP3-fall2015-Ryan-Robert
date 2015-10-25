@@ -54,8 +54,30 @@ public class Algorithms {
 
 	public static Set<List<Vertex>> BFS(Graph g) {
 		Set<List<Vertex>> bfsResults = new HashSet<>();
-		for (Vertex v : g.getVertices()) {
 
+		for (Vertex v : g.getVertices()) {
+			List<Vertex> resultsForV = new ArrayList<>();
+			Map<Vertex, Boolean> visited = new HashMap<>();
+			Map<Vertex, Vertex> parent = new HashMap<>();
+			Queue<Vertex> vertexQueue = new LinkedList<>();
+			Vertex currentVertex = v;
+			visited.put(currentVertex, true);
+			vertexQueue.add(currentVertex);
+			while (!vertexQueue.isEmpty()) {
+				currentVertex = vertexQueue.remove();
+				for (Vertex n : g.getDownstreamNeighbors(currentVertex)) {
+					if (!visited.containsKey(n)) {
+						vertexQueue.add(n);
+						visited.put(n, true);
+						parent.put(n, currentVertex);
+					}
+
+				}
+			}
+			for (Vertex v1 = v; v1 != null; v1 = parent.get(v1)) {
+				resultsForV.add(v1);
+			}
+			bfsResults.add(resultsForV);
 		}
 		return bfsResults;
 	}
@@ -63,8 +85,19 @@ public class Algorithms {
 	public static Set<List<Vertex>> DFS(Graph g) {
 		Set<List<Vertex>> dfsResults = new HashSet<>();
 		for (Vertex v : g.getVertices()) {
-			// TODO Figure out how to do this.
+			Stack<Vertex> vertexStack = new Stack<>();
+			Map<Vertex,Boolean> visited = new HashMap<>();
+			Vertex currentVertex = v;
+			visited.put(currentVertex, true);
+			vertexStack.push(currentVertex);
+			while(!vertexStack.empty()){
+				currentVertex=vertexStack.pop();
+				if(){
+					
+				}
+			}
 		}
+
 		return dfsResults;
 	}
 
