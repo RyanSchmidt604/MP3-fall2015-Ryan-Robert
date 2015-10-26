@@ -30,7 +30,7 @@ public class Query {
             for(Vertex v : upStreamVerticies){
                 result.append(v.toString() + "\r\n");
             }
-            result.append("</result>");
+            result.append("</result>\r\n");
             return result.toString();
         }else if(type == "numRetweets"){
             return Integer.toString(Algorithms.shortestDistance(graph, a, b));

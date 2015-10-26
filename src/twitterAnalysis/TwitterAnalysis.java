@@ -39,26 +39,17 @@ public class TwitterAnalysis {
             }
         }
         
-        
-        
-        
-        
-        
-        Scanner console = new Scanner(System.in);
-        
-        System.out.println("Queries file: ");
-        String queriesFile = console.nextLine().trim();
+
         
         InputStream queryStream;
         try {
-            queryStream = new FileInputStream(queriesFile);
+            queryStream = new FileInputStream(args[0]);
         } catch (FileNotFoundException e) {
             System.out.println("Invalid file name. Program Terminated");
             return;
         }
         
-        System.out.println("Output file: ");
-        String outputFile = console.nextLine().trim();
+        File outputFile = new File(args[1]);
         
         OutputStream outStream;
         try {
@@ -66,6 +57,14 @@ public class TwitterAnalysis {
         } catch (FileNotFoundException e) {
             System.out.println("Invalid file name. Program Terminated");
             return;
+        }
+        
+        if(!outputFile.exists()){
+            try {
+                outputFile.createNewFile();
+            } catch (IOException e) {
+                System.out.println("IO error. program terminated");
+            }
         }
         
         StringBuffer queryData;
@@ -82,9 +81,29 @@ public class TwitterAnalysis {
         for(int i = 0; i < queryList.size(); i++){
             String[] currentQuery = queryList.get(i).split(" ");
             
-            //TODO finish
+            if(labels.containsKey(currentQuery[1])){
+                if(labels.containsKey(currentQuery[2])){
+                    queryQueue.add(new Query(labels.get(currentQuery[1]),
+                            labels.get(currentQuery[2]), currentQuery[3]));
+                }
+            }
         }
-            
+        
+        while(!queryQueue.isEmpty()){
+            try {
+                outStream.write((queryQueue.peek().toString() + "/r/n").getBytes());
+                outStream.write(queryQueue.poll().performQuery(graph).getBytes());
+            } catch (IOException e) {
+                System.out.println("IO error. program terminated");
+            }
+        }
+        
+        try {
+            outStream.close();
+            queryStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         
     }
     private static StringBuffer readWholeFile(InputStream input) throws IOException{
