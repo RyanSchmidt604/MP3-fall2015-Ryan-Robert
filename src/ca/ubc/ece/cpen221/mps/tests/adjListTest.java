@@ -10,9 +10,8 @@ import ca.ubc.ece.cpen221.mp3.graph.AdjacencyMatrixGraph;
 import ca.ubc.ece.cpen221.mp3.staff.Graph;
 import ca.ubc.ece.cpen221.mp3.staff.Vertex;
 
-@SuppressWarnings("unused")
 public class adjListTest {
-	private Graph g = new AdjacencyListGraph();
+	private Graph g = new AdjacencyMatrixGraph();
 
 	@Test
 	public void addVertexAndGetVertexTest() {

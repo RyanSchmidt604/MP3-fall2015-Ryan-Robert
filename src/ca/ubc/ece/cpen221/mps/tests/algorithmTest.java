@@ -158,7 +158,7 @@ public class algorithmTest {
 		testGraph.addEdge(test5, test2);
 		testGraph.addEdge(test5, test3);
 		testGraph.addEdge(test6, test7);
-		
+
 		assertEquals(true, Algorithms.BFS(testGraph));
 	}
 
@@ -188,7 +188,7 @@ public class algorithmTest {
 		testGraph.addEdge(test5, test2);
 		testGraph.addEdge(test5, test3);
 		testGraph.addEdge(test6, test7);
-		
+
 		assertEquals(true, Algorithms.DFS(testGraph));
 	}
 }
