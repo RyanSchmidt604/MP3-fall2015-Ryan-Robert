@@ -86,18 +86,20 @@ public class Algorithms {
 		Set<List<Vertex>> dfsResults = new HashSet<>();
 		for (Vertex v : g.getVertices()) {
 			Stack<Vertex> vertexStack = new Stack<>();
-			Map<Vertex,Boolean> visited = new HashMap<>();
+			List<Vertex> visited = new ArrayList<>();
 			Vertex currentVertex = v;
-			visited.put(currentVertex, true);
 			vertexStack.push(currentVertex);
 			while(!vertexStack.empty()){
 				currentVertex=vertexStack.pop();
-				if(){
-					
+				if(visited.contains(currentVertex)){
+					visited.add(currentVertex);
+					for(Vertex w :g.getDownstreamNeighbors(currentVertex)){
+						vertexStack.push(w);
+					}
 				}
 			}
+			dfsResults.add(visited);
 		}
-
 		return dfsResults;
 	}
 
