@@ -5,6 +5,12 @@ import java.util.*;
 import ca.ubc.ece.cpen221.mp3.staff.Graph;
 import ca.ubc.ece.cpen221.mp3.staff.Vertex;
 
+/**
+ * 
+ * @author Robert Drinnan and Ryan Schmidt
+ *
+ */
+
 public class AdjacencyListGraph implements Graph {
 	private ArrayList<Vertex> vertexList = new ArrayList<>();
 	private ArrayList<ArrayList<Integer>> adjList = new ArrayList<>();

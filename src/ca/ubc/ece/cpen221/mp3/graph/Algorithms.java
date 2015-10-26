@@ -3,6 +3,7 @@ package ca.ubc.ece.cpen221.mp3.graph;
 import ca.ubc.ece.cpen221.mp3.staff.Graph;
 import ca.ubc.ece.cpen221.mp3.staff.Vertex;
 import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * 
@@ -80,8 +81,8 @@ public class Algorithms {
 
 				}
 			}
-			for (Vertex v1 = v; v1 != null; v1 = parent.get(v1)) {
-				resultsForV.add(v1);
+			for (Entry<Vertex, Vertex> results:parent.entrySet()) {
+				resultsForV.add(results.getValue());
 			}
 			bfsResults.add(resultsForV);
 		}

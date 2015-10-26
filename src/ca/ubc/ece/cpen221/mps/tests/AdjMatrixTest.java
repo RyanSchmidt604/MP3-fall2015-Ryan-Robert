@@ -13,8 +13,7 @@ import ca.ubc.ece.cpen221.mp3.graph.*;
  *
  */
 
-public class adjListTest {
-
+public class AdjMatrixTest {
 	private Graph g = new AdjacencyListGraph();
 
 	@Test
