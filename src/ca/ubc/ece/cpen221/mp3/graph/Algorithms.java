@@ -47,39 +47,67 @@ public class Algorithms {
 		}
 		int shortestPathLenght = 0;
 		for (Vertex v = b; v != null; v = parent.get(v)) {
-				shortestPathLenght++;
+			shortestPathLenght++;
 		}
-		return shortestPathLenght;
+		return shortestPathLenght - 1;
 	}
 
 	public static Set<List<Vertex>> BFS(Graph g) {
 		Set<List<Vertex>> bfsResults = new HashSet<>();
-		for (Vertex v : g.getVertices()) {
 
+		for (Vertex v : g.getVertices()) {
+			List<Vertex> resultsForV = new ArrayList<>();
+			Map<Vertex, Boolean> visited = new HashMap<>();
+			Map<Vertex, Vertex> parent = new HashMap<>();
+			Queue<Vertex> vertexQueue = new LinkedList<>();
+			Vertex currentVertex = v;
+			visited.put(currentVertex, true);
+			vertexQueue.add(currentVertex);
+			while (!vertexQueue.isEmpty()) {
+				currentVertex = vertexQueue.remove();
+				for (Vertex n : g.getDownstreamNeighbors(currentVertex)) {
+					if (!visited.containsKey(n)) {
+						vertexQueue.add(n);
+						visited.put(n, true);
+						parent.put(n, currentVertex);
+					}
+
+				}
+			}
+			for (Vertex v1 = v; v1 != null; v1 = parent.get(v1)) {
+				resultsForV.add(v1);
+			}
+			bfsResults.add(resultsForV);
 		}
 		return bfsResults;
 	}
 
 	public static Set<List<Vertex>> DFS(Graph g) {
-		Set<List<Vertex>> dfsResults = new HashSet<>();
-		for (Vertex v : g.getVertices()) {
-			// TODO Figure out how to do this.
+		Set<List<Vertex>> DFSResults = new HashSet<>();
+		for(Vertex v: g.getVertices()){
+			DFSResults.add(dfs(g,v));
 		}
-		return dfsResults;
+		return DFSResults;
 	}
+		
 
 	public static List<Vertex> commonUpstreamVertices(Graph g, Vertex a, Vertex b) {
 		List<Vertex> upstreamResults = new ArrayList<>();
 		List<Vertex> aVertices = g.getUpstreamNeighbors(a);
 		List<Vertex> bVertices = g.getUpstreamNeighbors(b);
-		while (!(aVertices.isEmpty() || bVertices.isEmpty())) {
-			Vertex aCheck = aVertices.remove(0);
-			Vertex bCheck = bVertices.remove(0);
-			if (aCheck.equals(bCheck)) {
-				upstreamResults.add(aCheck);
+		if (aVertices.size() > bVertices.size()) {
+			for (Vertex v : aVertices) {
+				if (bVertices.contains(v)) {
+					upstreamResults.add(v);
+				}
+			}
+		} else {
+			for (Vertex w : bVertices) {
+				if (aVertices.contains(w)) {
+					upstreamResults.add(w);
+				}
 			}
 		}
-
 		return upstreamResults;
 	}
 
@@ -87,14 +115,31 @@ public class Algorithms {
 		List<Vertex> downstreamResults = new ArrayList<>();
 		List<Vertex> aVertices = g.getDownstreamNeighbors(a);
 		List<Vertex> bVertices = g.getDownstreamNeighbors(b);
-		while (!(aVertices.isEmpty() || bVertices.isEmpty())) {
-			Vertex aCheck = aVertices.remove(0);
-			Vertex bCheck = bVertices.remove(0);
-			if (aCheck.equals(bCheck)) {
-				downstreamResults.add(aCheck);
+		if (aVertices.size() > bVertices.size()) {
+			for (Vertex v : aVertices) {
+				if (bVertices.contains(v)) {
+					downstreamResults.add(v);
+				}
+			}
+		} else {
+			for (Vertex w : bVertices) {
+				if (aVertices.contains(w)) {
+					downstreamResults.add(w);
+				}
 			}
 		}
 
 		return downstreamResults;
+	}
+	
+	private static List<Vertex> dfs(Graph g, Vertex v){
+		List<Vertex> dfsResults = new ArrayList<>();
+		dfsResults.add(v);
+		for(Vertex w: g.getDownstreamNeighbors(v)){
+			if(dfsResults.contains(w)){
+				dfs(g,w);
+			}
+		}
+		return dfsResults;
 	}
 }

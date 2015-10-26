@@ -6,9 +6,11 @@ import java.util.*;
 
 import org.junit.Test;
 import ca.ubc.ece.cpen221.mp3.graph.AdjacencyListGraph;
+import ca.ubc.ece.cpen221.mp3.graph.AdjacencyMatrixGraph;
 import ca.ubc.ece.cpen221.mp3.staff.Graph;
 import ca.ubc.ece.cpen221.mp3.staff.Vertex;
 
+@SuppressWarnings("unused")
 public class adjListTest {
 	private Graph g = new AdjacencyListGraph();
 
