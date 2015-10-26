@@ -83,25 +83,13 @@ public class Algorithms {
 	}
 
 	public static Set<List<Vertex>> DFS(Graph g) {
-		Set<List<Vertex>> dfsResults = new HashSet<>();
-		for (Vertex v : g.getVertices()) {
-			Stack<Vertex> vertexStack = new Stack<>();
-			List<Vertex> visited = new ArrayList<>();
-			Vertex currentVertex = v;
-			vertexStack.push(currentVertex);
-			while(!vertexStack.empty()){
-				currentVertex=vertexStack.pop();
-				if(visited.contains(currentVertex)){
-					visited.add(currentVertex);
-					for(Vertex w :g.getDownstreamNeighbors(currentVertex)){
-						vertexStack.push(w);
-					}
-				}
-			}
-			dfsResults.add(visited);
+		Set<List<Vertex>> DFSResults = new HashSet<>();
+		for(Vertex v: g.getVertices()){
+			DFSResults.add(dfs(g,v));
 		}
-		return dfsResults;
+		return DFSResults;
 	}
+		
 
 	public static List<Vertex> commonUpstreamVertices(Graph g, Vertex a, Vertex b) {
 		List<Vertex> upstreamResults = new ArrayList<>();
@@ -142,5 +130,16 @@ public class Algorithms {
 		}
 
 		return downstreamResults;
+	}
+	
+	private static List<Vertex> dfs(Graph g, Vertex v){
+		List<Vertex> dfsResults = new ArrayList<>();
+		dfsResults.add(v);
+		for(Vertex w: g.getDownstreamNeighbors(v)){
+			if(dfsResults.contains(w)){
+				dfs(g,w);
+			}
+		}
+		return dfsResults;
 	}
 }

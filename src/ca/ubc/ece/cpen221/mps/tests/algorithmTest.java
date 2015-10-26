@@ -131,4 +131,64 @@ public class algorithmTest {
 		assertEquals(true, Algorithms.commonUpstreamVertices(testGraph, test2, test3).containsAll(expectedResults3));
 
 	}
+
+	@Test
+	public void BfsTest() {
+		Vertex test1 = new Vertex("test1");
+		Vertex test2 = new Vertex("test2");
+		Vertex test3 = new Vertex("test3");
+		Vertex test4 = new Vertex("test4");
+		Vertex test5 = new Vertex("test5");
+		Vertex test6 = new Vertex("test6");
+		Vertex test7 = new Vertex("test7");
+
+		testGraph.addVertex(test1);
+		testGraph.addVertex(test2);
+		testGraph.addVertex(test3);
+		testGraph.addVertex(test4);
+		testGraph.addVertex(test5);
+		testGraph.addVertex(test6);
+		testGraph.addVertex(test7);
+
+		testGraph.addEdge(test1, test2);
+		testGraph.addEdge(test1, test3);
+		testGraph.addEdge(test1, test4);
+		testGraph.addEdge(test2, test3);
+		testGraph.addEdge(test4, test5);
+		testGraph.addEdge(test5, test2);
+		testGraph.addEdge(test5, test3);
+		testGraph.addEdge(test6, test7);
+		
+		assertEquals(true, Algorithms.BFS(testGraph));
+	}
+
+	@Test
+	public void DfsTest() {
+		Vertex test1 = new Vertex("test1");
+		Vertex test2 = new Vertex("test2");
+		Vertex test3 = new Vertex("test3");
+		Vertex test4 = new Vertex("test4");
+		Vertex test5 = new Vertex("test5");
+		Vertex test6 = new Vertex("test6");
+		Vertex test7 = new Vertex("test7");
+
+		testGraph.addVertex(test1);
+		testGraph.addVertex(test2);
+		testGraph.addVertex(test3);
+		testGraph.addVertex(test4);
+		testGraph.addVertex(test5);
+		testGraph.addVertex(test6);
+		testGraph.addVertex(test7);
+
+		testGraph.addEdge(test1, test2);
+		testGraph.addEdge(test1, test3);
+		testGraph.addEdge(test1, test4);
+		testGraph.addEdge(test2, test3);
+		testGraph.addEdge(test4, test5);
+		testGraph.addEdge(test5, test2);
+		testGraph.addEdge(test5, test3);
+		testGraph.addEdge(test6, test7);
+		
+		assertEquals(true, Algorithms.DFS(testGraph));
+	}
 }
