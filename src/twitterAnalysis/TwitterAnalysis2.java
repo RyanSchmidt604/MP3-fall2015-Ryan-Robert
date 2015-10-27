@@ -45,7 +45,7 @@ import ca.ubc.ece.cpen221.mp3.staff.*;
  *
  */
 
-public class TwitterAnalysis {
+public class TwitterAnalysis2 {
 
     public static void main(String[] args) {
         InputStream dataStream;
@@ -67,17 +67,30 @@ public class TwitterAnalysis {
         Graph graph = new AdjacencyListGraph();
         Map<String, Vertex> labels = new HashMap<>();
         int cycles = 0;
+        int index1;
+        int index2;
         while(true){
-            ArrayList<Vertex> nextEdge = nextEdge(data, labels, graph);
             cycles++;
-            if(nextEdge.isEmpty()){
+            
+            if((index1 = data.indexOf("->")) == -1 || (index2 = data.indexOf("\r\n")) == -1){
                 break;
             }
             
-            if(!graph.edgeExists(nextEdge.get(0), nextEdge.get(1))){
-                graph.addEdge(nextEdge.get(0), nextEdge.get(1));
-                System.out.println(cycles);
+            
+            String labelA = data.substring(0, index1 - 1).trim();
+            String labelB = data.substring(index1 + 2, index2).trim();
+            if(labels.putIfAbsent(labelA, new Vertex(labelA)) == null){
+                graph.addVertex(labels.get(labelA));
             }
+            if(labels.putIfAbsent(labelB, new Vertex(labelB)) == null){
+                graph.addVertex(labels.get(labelB));
+            }
+            
+            if(!graph.edgeExists(labels.get(labelA), labels.get(labelB))){
+                graph.addEdge(labels.get(labelA), labels.get(labelB));
+            }
+            data.delete(0, index2 + 2);
+            System.out.println(cycles);
         }
         
 
@@ -157,43 +170,12 @@ public class TwitterAnalysis {
         return buffer;
     }
     
-    private static ArrayList<Vertex> nextEdge(StringBuffer buf, Map<String, Vertex> labels,
-            Graph graph){
-        if(buf.length() == 0){
-            return new ArrayList<Vertex>();
-        }
-        int index1 = buf.indexOf("->");
-        int index2 = buf.indexOf("\r\n");
-        
-        String labelA = buf.substring(0, index1 - 1).trim();
-        String labelB = buf.substring(index1 + 2, index2).trim();
-        ArrayList<Vertex> result = new ArrayList<>();
-        
-        if (labels.containsKey(labelA)){
-            result.add(labels.get(labelA));
-        }else{
-            labels.put(labelA, new Vertex(labelA));
-            graph.addVertex(labels.get(labelA));
-            result.add(labels.get(labelA));
-        }
-        
-        if (labels.containsKey(labelB)){
-            result.add(labels.get(labelB));
-        }else{
-            labels.put(labelB, new Vertex(labelB));
-            graph.addVertex(labels.get(labelB));
-            result.add(labels.get(labelB));
-        }
-        
-        buf.delete(0, index2 + 2);
-        return result;
-    }
-
+    
     private static List<String> parseQueries(StringBuffer buf){
         StringBuffer buffer = new StringBuffer(buf);
         List<String> queries = new ArrayList<>();
         
-        while(buffer.length() != 0){
+        while(buffer.indexOf("\r\n") != -1){
             String nextLine = readLine(buffer);
             String[] attributes = nextLine.split(" ");
             if(attributes[0].contentEquals("commonInfluencers")
@@ -208,10 +190,11 @@ public class TwitterAnalysis {
     
     private static String readLine(StringBuffer buf){
         while(true){
-            if(buf.length() == 0){
+            int index;
+            if((index = buf.indexOf("\r\n")) == -1){
                 return "";
             }
-            int index = buf.indexOf("\r\n");
+            
             String nextLine = buf.substring(0, index);
             buf.delete(0, index + 2).toString();
             if(nextLine.charAt(index - 1) == '?'){
