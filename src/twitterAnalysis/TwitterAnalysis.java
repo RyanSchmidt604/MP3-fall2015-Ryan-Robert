@@ -48,6 +48,7 @@ import ca.ubc.ece.cpen221.mp3.staff.*;
 public class TwitterAnalysis {
 
     public static void main(String[] args) {
+        // first open the data file for the twitter data
         InputStream dataStream;
         try {
             dataStream = new FileInputStream("datasets/twitter.txt");
@@ -55,7 +56,7 @@ public class TwitterAnalysis {
             System.out.println("dataset missing. program terminated");
             return;
         }
-        
+        // put the whole file into a string buffer
         StringBuffer data;
         try {
             data = readWholeFile(dataStream);
@@ -63,25 +64,38 @@ public class TwitterAnalysis {
             System.out.println("IO error. program terminated");
             return;
         }
-        
+        //start creating a graph with the data
         Graph graph = new AdjacencyListGraph();
-        Map<String, Vertex> labels = new HashMap<>();
-        int cycles = 0;
+        Map<String, Vertex> labels = new HashMap<>();//this map holds all the verticies
+        //that we are using so that there are no duplicates
+        int index1;
+        int index2;
         while(true){
-            ArrayList<Vertex> nextEdge = nextEdge(data, labels, graph);
-            cycles++;
-            if(nextEdge.isEmpty()){
-                break;
-            }
             
-            if(!graph.edgeExists(nextEdge.get(0), nextEdge.get(1))){
-                graph.addEdge(nextEdge.get(0), nextEdge.get(1));
-                System.out.println(cycles);
+            if((index1 = data.indexOf("->")) == -1 || (index2 = data.indexOf("\r\n")) == -1){
+                break;// break if the buffer doesn't have another valid line
             }
+            String labelA = data.substring(0, index1 - 1).trim();//parse the first user
+            String labelB = data.substring(index1 + 2, index2).trim();//parse the second user
+            //add the vertexes to graph only if they don't already exist
+            if(!labels.containsKey(labelA)){   
+                labels.put(labelA, new Vertex(labelA));
+                graph.addVertex(labels.get(labelA));
+            }
+            if(!labels.containsKey(labelB)){
+                labels.put(labelB, new Vertex(labelB));
+                graph.addVertex(labels.get(labelB));
+            }
+            //add the edge between the verticies
+            if(!graph.edgeExists(labels.get(labelA), labels.get(labelB))){
+                graph.addEdge(labels.get(labelA), labels.get(labelB));
+            }
+            //move to the next line of the buffer
+            data.delete(0, index2 + 2);
         }
         
 
-        
+        //open the file used for queries
         InputStream queryStream;
         try {
             queryStream = new FileInputStream(args[0]);
@@ -89,7 +103,7 @@ public class TwitterAnalysis {
             System.out.println("Invalid file name. Program Terminated");
             return;
         }
-        
+        //open the file for output
         File outputFile = new File(args[1]);
         
         OutputStream outStream;
@@ -99,7 +113,7 @@ public class TwitterAnalysis {
             System.out.println("Invalid file name. Program Terminated");
             return;
         }
-        
+        //create a new file if need be
         if(!outputFile.exists()){
             try {
                 outputFile.createNewFile();
@@ -107,7 +121,7 @@ public class TwitterAnalysis {
                 System.out.println("IO error. program terminated");
             }
         }
-        
+        //put the whole query file into a buffer
         StringBuffer queryData;
         try {
             queryData = readWholeFile(queryStream);
@@ -115,10 +129,10 @@ public class TwitterAnalysis {
             System.out.println("IO error. Program Terminated");
             return;
         }
-        
+        //make a list of queries from the buffer
         List<String> queryList = parseQueries(queryData);
         Queue<Query> queryQueue = new LinkedList<>();
-        
+        //add the queries from the list into the queue only if the graph contains the verticies
         for(int i = 0; i < queryList.size(); i++){
             String[] currentQuery = queryList.get(i).split(" ");
             
@@ -129,7 +143,7 @@ public class TwitterAnalysis {
                 }
             }
         }
-        
+        //perform all the queries and output to the file
         while(!queryQueue.isEmpty()){
             try {
                 outStream.write((queryQueue.peek().toString() + "\r\n").getBytes());
@@ -150,54 +164,23 @@ public class TwitterAnalysis {
     private static StringBuffer readWholeFile(InputStream input) throws IOException{
         StringBuffer buffer = new StringBuffer();
         byte[] bytes = new byte[64];
+        //read in from the file 64 bytes at a time to increase speed
         while ((input.read(bytes, 0, 64)) != -1) {
             buffer.append(new String(bytes));
-            
         }
         return buffer;
     }
     
-    private static ArrayList<Vertex> nextEdge(StringBuffer buf, Map<String, Vertex> labels,
-            Graph graph){
-        if(buf.length() == 0){
-            return new ArrayList<Vertex>();
-        }
-        int index1 = buf.indexOf("->");
-        int index2 = buf.indexOf("\r\n");
-        
-        String labelA = buf.substring(0, index1 - 1).trim();
-        String labelB = buf.substring(index1 + 2, index2).trim();
-        ArrayList<Vertex> result = new ArrayList<>();
-        
-        if (labels.containsKey(labelA)){
-            result.add(labels.get(labelA));
-        }else{
-            labels.put(labelA, new Vertex(labelA));
-            graph.addVertex(labels.get(labelA));
-            result.add(labels.get(labelA));
-        }
-        
-        if (labels.containsKey(labelB)){
-            result.add(labels.get(labelB));
-        }else{
-            labels.put(labelB, new Vertex(labelB));
-            graph.addVertex(labels.get(labelB));
-            result.add(labels.get(labelB));
-        }
-        
-        buf.delete(0, index2 + 2);
-        return result;
-    }
-
+    
     private static List<String> parseQueries(StringBuffer buf){
         StringBuffer buffer = new StringBuffer(buf);
         List<String> queries = new ArrayList<>();
         
-        while(buffer.length() != 0){
+        while(buffer.indexOf("\r\n") != -1){//only continue if the buffer has another valid line
             String nextLine = readLine(buffer);
             String[] attributes = nextLine.split(" ");
-            if(attributes[0].contentEquals("commonInfluencers")
-                    || attributes[0].contentEquals("numRetweets")){
+            if(attributes[0].contentEquals("commonInfluencers")// the query must be of a valid
+                    || attributes[0].contentEquals("numRetweets")){//type
                 if(!queries.contains(nextLine)){
                     queries.add(nextLine);
                 }
@@ -208,10 +191,11 @@ public class TwitterAnalysis {
     
     private static String readLine(StringBuffer buf){
         while(true){
-            if(buf.length() == 0){
+            int index;
+            if((index = buf.indexOf("\r\n")) == -1){//only read if the buffer has a valid line
                 return "";
             }
-            int index = buf.indexOf("\r\n");
+            
             String nextLine = buf.substring(0, index);
             buf.delete(0, index + 2).toString();
             if(nextLine.charAt(index - 1) == '?'){

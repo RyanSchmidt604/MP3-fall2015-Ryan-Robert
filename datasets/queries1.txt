@@ -1,2 +1,0 @@
-commonInfluencers 12 14 ?
-numRetweets 34 56 ?

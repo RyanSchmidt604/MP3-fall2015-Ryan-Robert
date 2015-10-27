@@ -5,8 +5,16 @@ import java.util.*;
 import ca.ubc.ece.cpen221.mp3.staff.Graph;
 import ca.ubc.ece.cpen221.mp3.staff.Vertex;
 
+/**
+ * Thsi Class implements the Graph interface and uses the adjacency matrix 
+ * rep of a graph
+ * @author Ryan Schmidt & Robert Drinnan
+ *
+ */
 public class AdjacencyMatrixGraph implements Graph {
+    //A list of lists is used to represent the matrix
     private List<ArrayList<Integer>> adjacencyMatrix = new ArrayList<>();
+    //this list holds the verticies in the graph
     private List<Vertex> vertexList = new ArrayList<>();
     
 
@@ -14,9 +22,11 @@ public class AdjacencyMatrixGraph implements Graph {
     public void addVertex(Vertex v) {
         vertexList.add(v);
         ArrayList<Integer> newList = new ArrayList<>();
+        //populate the new list with enough zeros for the whole matrix
         for(int i = 0; i < vertexList.size(); i++){
             newList.add(0);
         }
+        //add an extra zero to every line in the matrix
         for(ArrayList<Integer> current : adjacencyMatrix){
             for(int i = current.size(); i < newList.size(); i++){
                 current.add(0);
@@ -47,13 +57,11 @@ public class AdjacencyMatrixGraph implements Graph {
     public List<Vertex> getDownstreamNeighbors(Vertex v) {
         List<Vertex> downStreamNeighbors = new ArrayList<>();
         int vertexIndex = vertexList.indexOf(v);
-        
         for(int i = 0; i < adjacencyMatrix.size(); i++){
             if(adjacencyMatrix.get(vertexIndex).get(i) == 1){
                 downStreamNeighbors.add(vertexList.get(i));
             }
         }
-        
         return downStreamNeighbors;
     }
 
@@ -74,18 +82,5 @@ public class AdjacencyMatrixGraph implements Graph {
     @Override
     public List<Vertex> getVertices() {
         return new ArrayList<Vertex>(vertexList);
-    }
-    
-    private List<ArrayList<Integer>> getSquaredMatrix(){
-        List<ArrayList<Integer>> productMatrix = new ArrayList<>(adjacencyMatrix);
-        
-        for(int i = 0; i < adjacencyMatrix.size(); i++){
-            for(int j = 0; j < adjacencyMatrix.get(i).size(); j++){
-                productMatrix.get(i).set(j, (productMatrix.get(i).get(j) == 1 &&
-                        adjacencyMatrix.get(j).get(i) == 1) ? 1 : 0);
-            }
-        }
-        
-        return productMatrix;
     }
 }
