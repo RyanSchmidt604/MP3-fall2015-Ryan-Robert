@@ -14,7 +14,7 @@ public class Query {
     public Query(Vertex a, Vertex b, String type)throws IllegalArgumentException{
         this.a = a;
         this.b = b;
-        if(type == "commonInfluencers" || type == "numRetweets"){
+        if(type.contentEquals("commonInfluencers") || type.contentEquals("numRetweets")){
             this.type = type;
         }else{
             throw new IllegalArgumentException();
@@ -25,18 +25,18 @@ public class Query {
         StringBuilder result = new StringBuilder();
         result.append("<result>\r\n");
         
-        if(type == "commonInfluencers"){
-            List<Vertex> upStreamVerticies = Algorithms.commonUpstreamVertices(graph, a, b);
-            for(Vertex v : upStreamVerticies){
+        if(type.contentEquals("commonInfluencers")){
+            List<Vertex> downStreamVerticies = Algorithms.commonDownstreamVertices(graph, a, b);
+            for(Vertex v : downStreamVerticies){
                 result.append(v.toString() + "\r\n");
             }
-            result.append("</result>\r\n");
-            return result.toString();
-        }else if(type == "numRetweets"){
-            return Integer.toString(Algorithms.shortestDistance(graph, a, b));
+            
+            
+        }else if(type.contentEquals("numRetweets")){
+            result.append((Integer.toString((Algorithms.shortestDistance(graph, b, a)) - 1))+ "\r\n");
         }
-        
-        return "";
+        result.append("</result>\r\n");
+        return result.toString();
     }
     @Override
     public String toString(){
