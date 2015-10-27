@@ -146,7 +146,7 @@ public class algorithmTest {
         Vertex d = new Vertex("d");
         Vertex e = new Vertex("e");
         Vertex f = new Vertex("f");
-  
+
         testGraph.addVertex(a);
         testGraph.addVertex(b);
         testGraph.addVertex(c);
@@ -159,12 +159,48 @@ public class algorithmTest {
         testGraph.addEdge(b, d);
         testGraph.addEdge(b, e);
         testGraph.addEdge(d, f);
+        
+        Set<List<Vertex>> testSet = new HashSet<>();
+        List<Vertex> testList1 = new LinkedList<>();
+        testList1.add(e);
+
+        List<Vertex> testList2 = new LinkedList<>();
+        testList2.add(f);
+        
+        List<Vertex> testList3 = new LinkedList<>();
+        testList3.add(c);
+        
+        List<Vertex> testList4 = new LinkedList<>();
+        testList4.add(d);
+        testList4.add(f);
+        
+        List<Vertex> testList5 = new LinkedList<>();
+        testList5.add(b);
+        testList5.add(d);
+        testList5.add(e);
+        testList5.add(f);
 
         
+        List<Vertex> testList6 = new LinkedList<>();
+        testList6.add(a);
+        testList6.add(b);
+        testList6.add(c);
+        testList6.add(d);
+        testList6.add(e);
+        testList6.add(f);
 
+        
+        
+        testSet.add(testList1);
+        testSet.add(testList2);
+        testSet.add(testList3);
+        testSet.add(testList4);
+        testSet.add(testList5);
+        testSet.add(testList6);
 
-        assertEquals(6, Algorithms.BFS(testGraph).toString());
+        assertEquals(true, Algorithms.BFS(testGraph).equals(testSet));
     }
+
     @Test
     public void dfsTest() {
         Vertex a = new Vertex("a");
@@ -173,7 +209,7 @@ public class algorithmTest {
         Vertex d = new Vertex("d");
         Vertex e = new Vertex("e");
         Vertex f = new Vertex("f");
-  
+
         testGraph.addVertex(a);
         testGraph.addVertex(b);
         testGraph.addVertex(c);
@@ -186,10 +222,99 @@ public class algorithmTest {
         testGraph.addEdge(b, d);
         testGraph.addEdge(b, e);
         testGraph.addEdge(d, f);
+        
+        Set<List<Vertex>> testSet = new HashSet<>();
+        List<Vertex> testList1 = new LinkedList<>();
+        testList1.add(e);
+
+        List<Vertex> testList2 = new LinkedList<>();
+        testList2.add(f);
+        
+        List<Vertex> testList3 = new LinkedList<>();
+        testList3.add(c);
+        
+        List<Vertex> testList4 = new LinkedList<>();
+        testList4.add(d);
+        testList4.add(f);
+        
+        List<Vertex> testList5 = new LinkedList<>();
+        testList5.add(b);
+        testList5.add(e);
+        testList5.add(d);
+        testList5.add(f);
 
         
+        List<Vertex> testList6 = new LinkedList<>();
+        testList6.add(a);
+        testList6.add(c);
+        testList6.add(b);
+        testList6.add(e);
+        testList6.add(d);
+        testList6.add(f);
+
+        
+        
+        testSet.add(testList1);
+        testSet.add(testList2);
+        testSet.add(testList3);
+        testSet.add(testList4);
+        testSet.add(testList5);
+        testSet.add(testList6);
+
+        
+        assertEquals(true, Algorithms.DFS(testGraph).equals(testSet));
+    }
+
+    @Test
+    public void cyclicGraphTest() {
+        Vertex a = new Vertex("a");
+        Vertex b = new Vertex("b");
+        Vertex c = new Vertex("c");
+        Vertex d = new Vertex("d");
+
+        testGraph.addVertex(a);
+        testGraph.addVertex(b);
+        testGraph.addVertex(c);
+        testGraph.addVertex(d);
+
+        testGraph.addEdge(a, b);
+        testGraph.addEdge(b, c);
+        testGraph.addEdge(c, d);
+        testGraph.addEdge(d, a);
+        
+        Set<List<Vertex>> testSet = new HashSet<>();
+        List<Vertex> testList1 = new LinkedList<>();
+        testList1.add(a);
+        testList1.add(b);
+        testList1.add(c);
+        testList1.add(d);
+
+        List<Vertex> testList2 = new LinkedList<>();
+        testList2.add(b);
+        testList2.add(c);
+        testList2.add(d);
+        testList2.add(a);
+        
+        List<Vertex> testList3 = new LinkedList<>();
+        testList3.add(c);
+        testList3.add(d);
+        testList3.add(a);
+        testList3.add(b);
+        
+        List<Vertex> testList4 = new LinkedList<>();
+        testList4.add(d);
+        testList4.add(a);
+        testList4.add(b);
+        testList4.add(c);
+        
+        testSet.add(testList1);
+        testSet.add(testList2);
+        testSet.add(testList3);
+        testSet.add(testList4);
+
+        assertEquals(true,Algorithms.BFS(testGraph).equals(testSet));
+        assertEquals(true,Algorithms.DFS(testGraph).equals(testSet));
 
 
-        assertEquals(6, Algorithms.DFS(testGraph).toString());
     }
 }
